@@ -25,9 +25,13 @@ ws.on('hello', function (data) {
   console.log('hello', data)
 })
 
+ws.on('chat', function (data) {
+  console.log(data)
+})
+
 var $title = document.querySelector('#title')
 window.sendMessage = function () {
-  ws.write('hello', { value: $title.value })
+  ws.write('chat', { value: $title.value })
 }
 </script>
 </body>

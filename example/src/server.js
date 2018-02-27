@@ -3,14 +3,17 @@ import http from 'http'
 import Client from './client'
 
 class WebSocketServer {
-  constructor (callback) {
+  constructor (messageReceiver, callback) {
     this.port = process.env.PORT || '3000'
+    this.clients = new Set()
     this.http = http.createServer(callback)
     this.io = new WebSocket.Server({ server: this.http })
     this.io.on('connection', (socket, req) => {
-      // const location = url.parse(req.url, true)
       console.log('connection')
-      new Client(socket)
+      const client = new Client(socket, this)
+      // 接受client的消息
+      messageReceiver(client)
+      this.clients.add(client)
     })
   }
 

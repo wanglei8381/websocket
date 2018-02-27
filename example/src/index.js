@@ -2,10 +2,11 @@ import Koa from 'koa'
 import views from 'koa-views'
 import statics from 'koa-static'
 import WebSocketServer from './server'
+import message from './message'
 import router from './router'
 
 const app = new Koa()
-const server = new WebSocketServer(app.callback())
+const server = new WebSocketServer(message, app.callback())
 
 app.use(
   views(__dirname + '/views', { extension: 'hbs', map: { hbs: 'handlebars' } })

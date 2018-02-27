@@ -1,7 +1,7 @@
 {
-  "name": "observable",
+  "name": "websocket",
   "version": "0.0.1",
-  "description": "observable",
+  "description": "websocket",
   "main": "dist/websocketio.common.js",
   "module": "dist/websocketio.esm.js",
   "scripts": {

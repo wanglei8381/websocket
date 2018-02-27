@@ -1,43 +1,38 @@
-class Client {
-  constructor (socket) {
+import EventEmitter from 'events'
+class Client extends EventEmitter {
+  constructor (socket, server) {
+    super()
     this.id = socket.id
     this.socket = socket
+    this.server = server
 
     socket.on('message', data => {
-      console.log(data)
       data = JSON.parse(data)
-      data.payload.ok = true
-      socket.send(JSON.stringify(data))
+      this.emit(data.type, data.payload)
     })
 
-    socket.on('error', () => {
-      console.log('error')
+    socket.on('error', err => {
+      this.emit('error', err)
     })
 
     socket.on('close', () => {
-      console.log('close')
+      this.server.clients.delete(this)
+      this.emit('close')
     })
   }
 
-  connect () {
-    this.on('hello', data => {
-      console.log(data)
-      this.emit('hello')
-    })
+  send (type, payload) {
+    this.socket.send(JSON.stringify({ type, payload }))
   }
 
-  on (msg, callback) {
-    callback = this.bind(callback)
-    this.socket.on(msg, (...args) => {
-      callback(...args)
-    })
+  broadcast (type, payload) {
+    const clients = this.server.clients
+    for (let client of clients) {
+      if (client !== this) {
+        client.send(type, payload)
+      }
+    }
   }
-
-  emit (msg, ...data) {
-    this.socket.emit(msg, ...data)
-  }
-
-  broadcast (msg, ...data) {}
 }
 
 export default Client
