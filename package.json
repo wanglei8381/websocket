@@ -1,0 +1,70 @@
+{
+  "name": "observable",
+  "version": "0.0.1",
+  "description": "observable",
+  "main": "dist/websocketio.common.js",
+  "module": "dist/websocketio.esm.js",
+  "scripts": {
+    "start": "node example/app.js",
+    "dev": "rollup -wm -c build/rollup.config.dev.js",
+    "build": "npm run clear && rollup -c build/rollup.config.js",
+    "clear": "shx rm -rf ./dist",
+    "lint": "eslint src test/unit",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "format": "prettier-eslint --no-semi --write \"src/**/*.js\" \"test/unit/**/*.js\" \"example/**/*.js\"",
+    "precommit": "npm run lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "lei.wang@wuage.com",
+  "license": "MIT",
+  "keywords": [
+    "observable"
+  ],
+  "devDependencies": {
+    "babel-eslint": "^8.2.1",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "eslint": "^4.15.0",
+    "eslint-config-standard": "^11.0.0-beta.0",
+    "husky": "^0.14.3",
+    "jest": "^22.0.5",
+    "prettier": "1.11.0",
+    "prettier-eslint-cli": "^4.7.1",
+    "rollup": "^0.53.4",
+    "rollup-plugin-babel": "^3.0.3",
+    "rollup-plugin-buble": "^0.18.0",
+    "rollup-plugin-filesize": "^1.5.0",
+    "rollup-plugin-node-resolve": "^3.0.2",
+    "rollup-plugin-replace": "^2.0.0",
+    "rollup-plugin-uglify": "^2.0.1",
+    "shx": "^0.2.2",
+    "sinon": "^4.1.5",
+    "koa": "^2.0.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-router": "^7.2.1",
+    "koa-session": "^5.5.0",
+    "koa-static": "^4.0.1",
+    "koa-views": "^6.0.2",
+    "ws": "^3.3.3"
+  },
+  "jest": {
+    "collectCoverage": false,
+    "moduleNameMapper": {
+      "^@$": "<rootDir>/src",
+      "^@/(.*)$": "<rootDir>/src/$1"
+    },
+    "collectCoverageFrom": [
+      "src/**"
+    ],
+    "setupFiles": [
+      "<rootDir>/test/unit/setup"
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/test/unit/index",
+    "coverageDirectory": "test/coverage"
+  }
+}
