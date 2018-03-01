@@ -6,4 +6,8 @@ export default function messageReceiver (client) {
   client.on('chat', data => {
     client.broadcast('chat', data)
   })
+
+  client.on('error', err => {
+    console.log(err)
+  })
 }

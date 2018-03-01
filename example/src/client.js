@@ -1,9 +1,11 @@
 import EventEmitter from 'events'
+import WebSocket from 'ws'
 class Client extends EventEmitter {
   constructor (socket, server) {
     super()
     this.id = socket.id
     this.socket = socket
+    socket.client = this
     this.server = server
 
     socket.on('message', data => {
@@ -16,7 +18,6 @@ class Client extends EventEmitter {
     })
 
     socket.on('close', () => {
-      this.server.clients.delete(this)
       this.emit('close')
     })
   }
@@ -26,10 +27,10 @@ class Client extends EventEmitter {
   }
 
   broadcast (type, payload) {
-    const clients = this.server.clients
-    for (let client of clients) {
-      if (client !== this) {
-        client.send(type, payload)
+    const sockets = this.server.io.clients
+    for (let socket of sockets) {
+      if (socket !== this.socket && socket.readyState === WebSocket.OPEN) {
+        socket.client.send(type, payload)
       }
     }
   }
