@@ -156,8 +156,8 @@ class WebSocketIO extends Event {
 
   destroy () {
     if (this.active) {
-      this.active = false
       this.close('destroy')
+      this.active = false
     }
   }
 }
